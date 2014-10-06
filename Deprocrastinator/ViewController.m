@@ -14,6 +14,7 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableViewErrands;
 @property NSIndexPath *lastIndexPath;
 @property NSMutableArray *checkedIndexPaths;
+@property (weak, nonatomic) IBOutlet UIButton *editButton;
 
 
 @end
@@ -36,12 +37,19 @@
 - (IBAction)onAddButtonPressed:(id)sender {
     
     [self.errandsArray addObject:self.viewControllerTextField.text];
+    [self.checkedIndexPaths addObject:[NSNumber numberWithBool:NO]];
     self.viewControllerTextField.text = @"";
     [self.viewControllerTextField resignFirstResponder];
     [self.tableViewErrands reloadData];
     
-    
 }
+- (IBAction)onEditButtonPressed:(UIButton *)sender {
+    [self.editButton setTitle:@"Done" forState:UIControlStateNormal];
+
+}
+
+
+
 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -69,20 +77,22 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     
-    if (cell.accessoryType == UITableViewCellAccessoryNone)
-    {
+    if ([self.editButton.titleLabel.text containsString:@"Done"]) {
+        [self.errandsArray removeObjectAtIndex:indexPath.row];
+        [tableView reloadData];
+    }
+    
+    if (cell.accessoryType == UITableViewCellAccessoryNone){
         cell.accessoryType = UITableViewCellAccessoryCheckmark;
         //This sets the array
         [self.checkedIndexPaths replaceObjectAtIndex:indexPath.row withObject:[NSNumber numberWithBool:YES]];
         
-    } else
-    {
+    } else{
         cell.accessoryType = UITableViewCellAccessoryNone;
         //This sets the array
         [self.checkedIndexPaths replaceObjectAtIndex:indexPath.row withObject:[NSNumber numberWithBool:NO]];
         
     }
 }
-
 
 @end

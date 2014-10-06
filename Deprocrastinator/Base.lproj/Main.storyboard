@@ -46,6 +46,18 @@
                                     <action selector="onAddButtonPressed:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="iBa-Oz-9dy"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tks-2V-nhu">
+                                <rect key="frame" x="-23" y="-15" width="46" height="30"/>
+                                <state key="normal" title="Edit">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <variation key="widthClass=compact" fixedFrame="YES">
+                                    <rect key="frame" x="312" y="89" width="56" height="30"/>
+                                </variation>
+                                <connections>
+                                    <action selector="onEditButtonPressed:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="vHo-46-4bt"/>
+                                </connections>
+                            </button>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="spJ-6u-oQT">
                                 <rect key="frame" x="0.0" y="-30" width="97" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -66,6 +78,7 @@
                             <mask key="subviews">
                                 <exclude reference="Khi-Pp-Ir3"/>
                                 <exclude reference="K78-mn-eiF"/>
+                                <exclude reference="Tks-2V-nhu"/>
                                 <exclude reference="spJ-6u-oQT"/>
                             </mask>
                             <mask key="constraints">
@@ -79,6 +92,7 @@
                             <mask key="subviews">
                                 <include reference="Khi-Pp-Ir3"/>
                                 <include reference="K78-mn-eiF"/>
+                                <include reference="Tks-2V-nhu"/>
                                 <include reference="spJ-6u-oQT"/>
                             </mask>
                             <mask key="constraints">
@@ -91,6 +105,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="EGJ-2N-g0A"/>
                     <connections>
+                        <outlet property="editButton" destination="Tks-2V-nhu" id="D2E-2I-UAs"/>
                         <outlet property="tableViewErrands" destination="Khi-Pp-Ir3" id="4fJ-O5-zFH"/>
                         <outlet property="viewControllerTextField" destination="spJ-6u-oQT" id="Veb-O7-YLg"/>
                     </connections>
