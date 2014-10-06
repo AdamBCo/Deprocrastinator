@@ -45,7 +45,16 @@
 }
 - (IBAction)onEditButtonPressed:(UIButton *)sender {
     [self.editButton setTitle:@"Done" forState:UIControlStateNormal];
+    if ([self.editButton.titleLabel.text containsString:@"Done"]) {
+        [self.editButton setTitle:@"Edit" forState:UIControlStateNormal];
+    }
+    
+}
 
+-(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
+    [self.errandsArray removeObjectAtIndex:indexPath.row];
+    
+    [tableView reloadData];
 }
 
 
