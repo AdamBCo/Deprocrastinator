@@ -20,6 +20,7 @@
 @property NSIndexPath *alertIndexPath;
 
 
+
 @end
 
 @implementation ViewController
@@ -42,8 +43,8 @@
                                                     @"Help people",
                                                     @"Help Don",
                                                     @"Help Humanity", nil];
-    
-    self.checkedIndexPaths = [NSMutableArray arrayWithCapacity:self.errandsArray.count];
+
+    self.checkedIndexPaths = [[NSMutableArray alloc]init];
     for (int i = 0; i < self.errandsArray.count; i++) {
         [self.checkedIndexPaths addObject:[NSNumber numberWithBool:NO]];
     }
@@ -64,14 +65,14 @@
     
 }
 - (IBAction)onEditButtonPressed:(UIButton *)sender {
-    [self.editButton setTitle:@"Done" forState:UIControlStateNormal];
-    [self.tableViewErrands setEditing:YES animated:YES];
 
-    if ([self.editButton.titleLabel.text containsString:@"Done"]) {
+    if (self.tableViewErrands.editing) {
         [self.editButton setTitle:@"Edit" forState:UIControlStateNormal];
         [self.tableViewErrands setEditing:NO animated:YES];
+    } else {
+        [self.editButton setTitle:@"Done" forState:UIControlStateNormal];
+        [self.tableViewErrands setEditing:YES animated:YES];
     }
-    
 }
 
 
@@ -91,13 +92,12 @@
         [alert show];
     }
 
-    
-    [self.tableViewErrands reloadData];
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     if (buttonIndex == 1) {
         [self.errandsArray removeObjectAtIndex:self.alertIndexPath.row];
+        [self.checkedIndexPaths removeObjectAtIndex: self.alertIndexPath.row];
         [self.tableViewErrands reloadData];
     }
 }
@@ -117,23 +117,20 @@
             UITableViewCell *cell = [self.tableViewErrands cellForRowAtIndexPath:indexPath];
             
             //Update the cell or model
-            
-            self.colorsArray = [NSArray arrayWithObjects:[UIColor greenColor], [UIColor yellowColor], [UIColor redColor],nil];
             if (cell.tag == 0) {
-                cell.backgroundColor = [self.colorsArray objectAtIndex:0];
+                cell.backgroundColor = [UIColor greenColor];
                 cell.tag++;
             } else if(cell.tag == 1){
-                cell.backgroundColor = [self.colorsArray objectAtIndex:1];
+                cell.backgroundColor = [UIColor yellowColor];
                 cell.tag++;
             } else if(cell.tag == 2){
-                cell.backgroundColor = [self.colorsArray objectAtIndex:2];
+                cell.backgroundColor = [UIColor redColor];
                 cell.tag++;
             } else if(cell.tag == 3){
                 cell.backgroundColor = [UIColor whiteColor];
                 cell.tag = 0;
             }
         }
-    NSLog(@"Hello");
 }
 
 
@@ -149,25 +146,26 @@
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"deprocrastinatorCell" forIndexPath:indexPath];
     cell.textLabel.text = [self.errandsArray objectAtIndex:indexPath.row];
-    cell.detailTextLabel.text = @"New Label";
     
     if ([indexPath compare:self.lastIndexPath] == NSOrderedSame)
     {
         cell.accessoryType = UITableViewCellAccessoryCheckmark;
+        [self.checkedIndexPaths replaceObjectAtIndex:indexPath.row withObject:[NSNumber numberWithBool:YES]];
+
     }
     else
     {
         cell.accessoryType = UITableViewCellAccessoryNone;
+        [self.checkedIndexPaths replaceObjectAtIndex:indexPath.row withObject:[NSNumber numberWithBool:NO]];
         
     }
-    
-    
     return cell;
     
 }
 
 
 -(void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath{
+
     
     
 }
@@ -183,24 +181,17 @@
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     
     if (cell.accessoryType == UITableViewCellAccessoryNone){
-        cell.accessoryType = UITableViewCellAccessoryCheckmark;
         //This sets the array
         [self.checkedIndexPaths replaceObjectAtIndex:indexPath.row withObject:[NSNumber numberWithBool:YES]];
         
     } else{
-        cell.accessoryType = UITableViewCellAccessoryNone;
         //This sets the array
         [self.checkedIndexPaths replaceObjectAtIndex:indexPath.row withObject:[NSNumber numberWithBool:NO]];
         
     }
+    [self.tableViewErrands reloadData];
 }
 
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-    
-}
 
 
 @end
