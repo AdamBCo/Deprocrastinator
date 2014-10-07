@@ -8,7 +8,7 @@
 
 #import "ViewController.h"
 
-@interface ViewController () <UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate>
+@interface ViewController () <UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate, UIAlertViewDelegate>
 @property (weak, nonatomic) IBOutlet UITextField *viewControllerTextField;
 @property NSMutableArray *errandsArray;
 @property (weak, nonatomic) IBOutlet UITableView *tableViewErrands;
@@ -17,6 +17,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *editButton;
 @property NSArray *colorsArray;
 @property CGPoint originalCenter;
+@property NSIndexPath *alertIndexPath;
 
 
 @end
@@ -28,6 +29,18 @@
     self.errandsArray = [NSMutableArray arrayWithObjects:@"Help old People",
                                                     @"Help people",
                                                     @"Help Don",
+                                                    @"Help people",
+                                                    @"Help Don",
+                                                    @"Help people",
+                                                    @"Help Don",
+                                                    @"Help people",
+                                                    @"Help Don",
+                                                    @"Help people",
+                                                    @"Help Don",
+                                                    @"Help people",
+                                                    @"Help Don",
+                                                    @"Help people",
+                                                    @"Help Don",
                                                     @"Help Humanity", nil];
     
     self.checkedIndexPaths = [NSMutableArray arrayWithCapacity:self.errandsArray.count];
@@ -36,6 +49,8 @@
     }
     
     self.colorsArray = [NSMutableArray arrayWithObjects:[UIColor redColor], [UIColor yellowColor], [UIColor greenColor], nil];
+    
+
     
 }
 
@@ -50,8 +65,11 @@
 }
 - (IBAction)onEditButtonPressed:(UIButton *)sender {
     [self.editButton setTitle:@"Done" forState:UIControlStateNormal];
+    [self.tableViewErrands setEditing:YES animated:YES];
+
     if ([self.editButton.titleLabel.text containsString:@"Done"]) {
         [self.editButton setTitle:@"Edit" forState:UIControlStateNormal];
+        [self.tableViewErrands setEditing:NO animated:YES];
     }
     
 }
@@ -61,9 +79,27 @@
 
 
 -(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
-    [self.errandsArray removeObjectAtIndex:indexPath.row];
     
-    [tableView reloadData];
+    self.alertIndexPath = indexPath;
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Warning"
+                                                        message:@"Are you sure?"
+                                                       delegate:self
+                                              cancelButtonTitle:@"NO"
+                                              otherButtonTitles:@"YES", nil];
+        [alert show];
+    }
+
+    
+    [self.tableViewErrands reloadData];
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    if (buttonIndex == 1) {
+        [self.errandsArray removeObjectAtIndex:self.alertIndexPath.row];
+        [self.tableViewErrands reloadData];
+    }
 }
 
 
@@ -108,10 +144,12 @@
 }
 
 
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"deprocrastinatorCell" forIndexPath:indexPath];
     cell.textLabel.text = [self.errandsArray objectAtIndex:indexPath.row];
+    cell.detailTextLabel.text = @"New Label";
     
     if ([indexPath compare:self.lastIndexPath] == NSOrderedSame)
     {
@@ -120,16 +158,29 @@
     else
     {
         cell.accessoryType = UITableViewCellAccessoryNone;
+        
     }
+    
+    
     return cell;
     
 }
 
 
+-(void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath{
+    
+    
+}
+
+-(BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath{
+    return YES;
+}
+
+
+
+
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-    
-    
     
     if (cell.accessoryType == UITableViewCellAccessoryNone){
         cell.accessoryType = UITableViewCellAccessoryCheckmark;
@@ -143,5 +194,13 @@
         
     }
 }
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    // Return NO if you do not want the specified item to be editable.
+    return YES;
+    
+}
+
 
 @end

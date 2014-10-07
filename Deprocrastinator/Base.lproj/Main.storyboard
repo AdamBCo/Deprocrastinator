@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="DUB-rS-4Qx">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
+        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -21,7 +22,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="deprocrastinatorCell" id="qFE-qd-2qE">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" showsReorderControl="YES" indentationWidth="10" reuseIdentifier="deprocrastinatorCell" id="qFE-qd-2qE">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="qFE-qd-2qE" id="SjP-DX-zZa">
@@ -83,10 +84,10 @@
                                 <exclude reference="spJ-6u-oQT"/>
                             </mask>
                             <mask key="constraints">
+                                <exclude reference="ufd-Sy-Ngj"/>
                                 <exclude reference="Bje-US-mv6"/>
                                 <exclude reference="dsS-CL-Xff"/>
                                 <exclude reference="ppQ-Gs-79E"/>
-                                <exclude reference="ufd-Sy-Ngj"/>
                             </mask>
                         </variation>
                         <variation key="widthClass=compact">
@@ -97,10 +98,10 @@
                                 <include reference="spJ-6u-oQT"/>
                             </mask>
                             <mask key="constraints">
+                                <include reference="ufd-Sy-Ngj"/>
                                 <include reference="Bje-US-mv6"/>
                                 <include reference="dsS-CL-Xff"/>
                                 <include reference="ppQ-Gs-79E"/>
-                                <include reference="ufd-Sy-Ngj"/>
                             </mask>
                         </variation>
                         <connections>
