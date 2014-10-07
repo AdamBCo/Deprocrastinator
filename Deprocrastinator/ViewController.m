@@ -8,13 +8,15 @@
 
 #import "ViewController.h"
 
-@interface ViewController () <UITableViewDelegate, UITableViewDataSource>
+@interface ViewController () <UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate>
 @property (weak, nonatomic) IBOutlet UITextField *viewControllerTextField;
 @property NSMutableArray *errandsArray;
 @property (weak, nonatomic) IBOutlet UITableView *tableViewErrands;
 @property NSIndexPath *lastIndexPath;
 @property NSMutableArray *checkedIndexPaths;
 @property (weak, nonatomic) IBOutlet UIButton *editButton;
+@property NSArray *colorsArray;
+@property CGPoint originalCenter;
 
 
 @end
@@ -32,6 +34,9 @@
     for (int i = 0; i < self.errandsArray.count; i++) {
         [self.checkedIndexPaths addObject:[NSNumber numberWithBool:NO]];
     }
+    
+    self.colorsArray = [NSMutableArray arrayWithObjects:[UIColor redColor], [UIColor yellowColor], [UIColor greenColor], nil];
+    
 }
 
 - (IBAction)onAddButtonPressed:(id)sender {
@@ -51,6 +56,10 @@
     
 }
 
+
+
+
+
 -(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
     [self.errandsArray removeObjectAtIndex:indexPath.row];
     
@@ -58,6 +67,38 @@
 }
 
 
+- (IBAction)prioritySwipeRight:(UISwipeGestureRecognizer*)swipegesture{
+        //Get location of the swipe
+        CGPoint location = [swipegesture locationInView:self.tableViewErrands];
+        
+        //Get the corresponding index path within the table view
+        NSIndexPath *indexPath = [self.tableViewErrands indexPathForRowAtPoint:location];
+        
+        //Check if index path is valid
+        if(indexPath)
+        {
+            //Get the cell out of the table view
+            UITableViewCell *cell = [self.tableViewErrands cellForRowAtIndexPath:indexPath];
+            
+            //Update the cell or model
+            
+            self.colorsArray = [NSArray arrayWithObjects:[UIColor greenColor], [UIColor yellowColor], [UIColor redColor],nil];
+            if (cell.tag == 0) {
+                cell.backgroundColor = [self.colorsArray objectAtIndex:0];
+                cell.tag++;
+            } else if(cell.tag == 1){
+                cell.backgroundColor = [self.colorsArray objectAtIndex:1];
+                cell.tag++;
+            } else if(cell.tag == 2){
+                cell.backgroundColor = [self.colorsArray objectAtIndex:2];
+                cell.tag++;
+            } else if(cell.tag == 3){
+                cell.backgroundColor = [UIColor whiteColor];
+                cell.tag = 0;
+            }
+        }
+    NSLog(@"Hello");
+}
 
 
 
@@ -71,6 +112,7 @@
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"deprocrastinatorCell" forIndexPath:indexPath];
     cell.textLabel.text = [self.errandsArray objectAtIndex:indexPath.row];
+    
     if ([indexPath compare:self.lastIndexPath] == NSOrderedSame)
     {
         cell.accessoryType = UITableViewCellAccessoryCheckmark;
@@ -83,13 +125,11 @@
     
 }
 
+
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     
-    if ([self.editButton.titleLabel.text containsString:@"Done"]) {
-        [self.errandsArray removeObjectAtIndex:indexPath.row];
-        [tableView reloadData];
-    }
+    
     
     if (cell.accessoryType == UITableViewCellAccessoryNone){
         cell.accessoryType = UITableViewCellAccessoryCheckmark;

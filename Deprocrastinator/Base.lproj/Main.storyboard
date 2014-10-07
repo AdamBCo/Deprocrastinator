@@ -68,6 +68,7 @@
                             </textField>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="Khi-Pp-Ir3" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="8" id="Bje-US-mv6"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Khi-Pp-Ir3" secondAttribute="trailing" constant="-16" id="dsS-CL-Xff"/>
@@ -102,6 +103,9 @@
                                 <include reference="ufd-Sy-Ngj"/>
                             </mask>
                         </variation>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="kO9-fE-8qp" appends="YES" id="Zb9-4f-5lt"/>
+                        </connections>
                     </view>
                     <navigationItem key="navigationItem" id="EGJ-2N-g0A"/>
                     <connections>
@@ -111,6 +115,12 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
+                <swipeGestureRecognizer direction="right" id="kO9-fE-8qp">
+                    <connections>
+                        <action selector="prioritySwipeRight:" destination="vXZ-lx-hvc" id="fya-EB-aQl"/>
+                        <outlet property="delegate" destination="vXZ-lx-hvc" id="Wgq-7o-Rtt"/>
+                    </connections>
+                </swipeGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="1257" y="407"/>
         </scene>
